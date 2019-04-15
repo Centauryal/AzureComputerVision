@@ -9,7 +9,7 @@ use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
 use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
 use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
 
-$connectionString = "DefaultEndpointsProtocol=https;AccountName=centaurystorage;AccountKey=YDRFUmY4V7OiLM14Xq3c+aDgUSyt0WNRUCYfiqru8axogJ+IjHnVkU+YBzw7cTb0HfqPpP3dkwnrzVf2vLBbBQ=";
+$connectionString = "DefaultEndpointsProtocol=https;AccountName=".getenv('ACCOUNT_NAME').";AccountKey=".getenv('ACCOUNT_KEY');
 
 $blobClient = BlobRestProxy::createBlobService($connectionString);
 

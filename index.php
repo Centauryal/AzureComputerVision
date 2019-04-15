@@ -73,7 +73,7 @@
       type="text"
       name="inputImage"
       id="inputImage"
-      value="http://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg"
+      value="https://centaurystorage.blob.core.windows.net/blockblobsaaaaaa/img/city.png"
     />
     <button onclick="processImage()">Analyze image</button>
     <br /><br />
