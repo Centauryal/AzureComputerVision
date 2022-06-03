@@ -6,7 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
+    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src', $vendorDir . '/psr/http-factory/src'),
+    'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
     'MicrosoftAzure\\Storage\\Table\\' => array($vendorDir . '/microsoft/azure-storage-table/src/Table'),
     'MicrosoftAzure\\Storage\\Queue\\' => array($vendorDir . '/microsoft/azure-storage-queue/src/Queue'),
     'MicrosoftAzure\\Storage\\File\\' => array($vendorDir . '/microsoft/azure-storage-file/src/File'),

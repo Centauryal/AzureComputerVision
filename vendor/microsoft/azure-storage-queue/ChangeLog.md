@@ -1,3 +1,19 @@
+2021.09 - version 1.3.4
+* Upgraded dependency for `azure-storage-common` to version 1.5.2.
+
+2020.12 - version 1.3.3
+* Guzzle version is now updated to support both 6.x and 7.x.
+
+2020.08 - version 1.3.2
+* Lower case query parameter names.
+
+2020.01 - version 1.3.1
+* Fixed the issue in SAS token where special characters were not correctly encoded.
+
+2019.04 - version 1.3.0
+* Added support for OAuth authentication.
+* Resolved some issues on Linux platform.
+
 2019.03 - version 1.2.0
 * Documentation refinement.
 

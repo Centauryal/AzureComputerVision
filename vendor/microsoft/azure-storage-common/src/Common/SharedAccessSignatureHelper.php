@@ -291,7 +291,7 @@ class SharedAccessSignatureHelper
         }
 
         Validate::isTrue(
-            strlen($input) == '',
+            strlen($input) == 0,
             sprintf(
                 Resources::STRING_NOT_WITH_GIVEN_COMBINATION,
                 implode(', ', $array)
@@ -326,6 +326,6 @@ class SharedAccessSignatureHelper
         if (Utilities::startsWith($resource, '/')) {
             $resource = substr($resource, 1);
         }
-        return sprintf('/%s/%s/%s', $serviceName, $accountName, $resource);
+        return urldecode(sprintf('/%s/%s/%s', $serviceName, $accountName, $resource));
     }
 }

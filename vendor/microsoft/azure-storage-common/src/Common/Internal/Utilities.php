@@ -25,7 +25,7 @@
 
 namespace MicrosoftAzure\Storage\Common\Internal;
 
-use GuzzleHttp\Psr7\Stream;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Utilities for the project
@@ -433,7 +433,7 @@ class Utilities
 
         $cloned = clone $value;
         $cloned->setTimezone(new \DateTimeZone('UTC'));
-        return str_replace('+0000', 'Z', $cloned->format("Y-m-d\TH:i:s.u0O"));
+        return str_replace('+00:00', 'Z', $cloned->format("Y-m-d\TH:i:s.u0P"));
     }
 
     /**
@@ -562,7 +562,7 @@ class Utilities
             mt_rand(0, 64) + 128,       // 8 bits  for "clock_seq_hi", with
                                         // the most significant 2 bits being 10,
                                         // required by version 4 GUIDs.
-            mt_rand(0, 256),            // 8 bits  for "clock_seq_low"
+            mt_rand(0, 255),            // 8 bits  for "clock_seq_low"
             mt_rand(0, 65535),          // 16 bits for "node 0" and "node 1"
             mt_rand(0, 65535),          // 16 bits for "node 2" and "node 3"
             mt_rand(0, 65535)           // 16 bits for "node 4" and "node 5"
@@ -677,17 +677,17 @@ class Utilities
      * To evaluate if the stream is larger than a certain size. To restore
      * the stream, it has to be seekable, so will return true if the stream
      * is not seekable.
-     * @param  Stream          $stream The stream to be evaluated.
+     * @param  StreamInterface $stream The stream to be evaluated.
      * @param  int             $size   The size if the string is larger than.
      *
      * @return boolean         true if the stream is larger than the given size.
      */
-    public static function isStreamLargerThanSizeOrNotSeekable(Stream $stream, $size)
+    public static function isStreamLargerThanSizeOrNotSeekable(StreamInterface $stream, $size)
     {
         Validate::isInteger($size, 'size');
         Validate::isTrue(
-            $stream instanceof Stream,
-            sprintf(Resources::INVALID_PARAM_MSG, 'stream', 'Guzzle\Stream')
+            $stream instanceof StreamInterface,
+            sprintf(Resources::INVALID_PARAM_MSG, 'stream', 'Psr\Http\Message\StreamInterface')
         );
         $result = true;
         if ($stream->isSeekable()) {

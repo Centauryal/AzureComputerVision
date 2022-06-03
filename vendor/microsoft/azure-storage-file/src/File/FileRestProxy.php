@@ -485,17 +485,17 @@ class FileRestProxy extends ServiceRestProxy implements IFile
         );
         $this->addOptionalQueryParam(
             $queryParams,
-            Resources::QP_PREFIX,
+            Resources::QP_PREFIX_LOWERCASE,
             $options->getPrefix()
         );
         $this->addOptionalQueryParam(
             $queryParams,
-            Resources::QP_MARKER,
+            Resources::QP_MARKER_LOWERCASE,
             $options->getNextMarker()
         );
         $this->addOptionalQueryParam(
             $queryParams,
-            Resources::QP_MAX_RESULTS,
+            Resources::QP_MAX_RESULTS_LOWERCASE,
             $options->getMaxResults()
         );
         $isInclude = $options->getIncludeMetadata();
@@ -1131,17 +1131,17 @@ class FileRestProxy extends ServiceRestProxy implements IFile
         );
         $this->addOptionalQueryParam(
             $queryParams,
-            Resources::QP_PREFIX,
+            Resources::QP_PREFIX_LOWERCASE,
             $options->getPrefix()
         );
         $this->addOptionalQueryParam(
             $queryParams,
-            Resources::QP_MARKER,
+            Resources::QP_MARKER_LOWERCASE,
             $options->getNextMarker()
         );
         $this->addOptionalQueryParam(
             $queryParams,
-            Resources::QP_MAX_RESULTS,
+            Resources::QP_MAX_RESULTS_LOWERCASE,
             $options->getMaxResults()
         );
 
@@ -2226,7 +2226,7 @@ class FileRestProxy extends ServiceRestProxy implements IFile
         Validate::notNullOrEmpty($path, 'path');
         Validate::notNullOrEmpty($share, 'share');
         Validate::notNull($range->getLength(), Resources::RESOURCE_RANGE_LENGTH_MUST_SET);
-        $stream = Psr7\stream_for($content);
+        $stream = Psr7\Utils::streamFor($content);
 
         $method      = Resources::HTTP_PUT;
         $headers     = array();
@@ -2323,7 +2323,7 @@ class FileRestProxy extends ServiceRestProxy implements IFile
         $content,
         CreateFileFromContentOptions $options = null
     ) {
-        $stream = Psr7\stream_for($content);
+        $stream = Psr7\Utils::streamFor($content);
         $size = $stream->getSize();
 
         if ($options == null) {
@@ -2355,7 +2355,7 @@ class FileRestProxy extends ServiceRestProxy implements IFile
                     $useTransactionalMD5
                 );
             }, null);
-        } else {
+        } elseif ($size > 0) {
             return $promise->then(function ($response) use (
                 $share,
                 $path,
@@ -2371,6 +2371,8 @@ class FileRestProxy extends ServiceRestProxy implements IFile
                     $putOptions
                 );
             }, null);
+        } else {
+            return $promise;
         }
     }
 

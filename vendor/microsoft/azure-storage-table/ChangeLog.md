@@ -1,3 +1,22 @@
+2021.09 - version 1.1.5
+* Upgraded dependency for `azure-storage-common` to version 1.5.2.
+* Fixed a bug where `QueryEnttitiesResult` with a null `NextRowKey` won't work.
+* Return integer from a sorting callback, not bool.
+
+2020.12 - version 1.1.4
+* Guzzle version is now updated to support both 6.x and 7.x.
+
+2020.08 - version 1.1.3
+* Lower case query parameter names.
+
+2020.01 - version 1.1.2
+* Fixed the issue in SAS token where special characters were not correctly encoded.
+* Empty lines no longer treated as headers in Batch operation.
+
+
+2019.04 - version 1.1.1
+* Resolved some issues on Linux platform.
+
 2018.04 - version 1.1.0
 
 * MD files are modified for better readability and formatting.

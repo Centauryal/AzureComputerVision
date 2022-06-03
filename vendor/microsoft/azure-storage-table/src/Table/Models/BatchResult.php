@@ -67,8 +67,7 @@ class BatchResult
             $response = new \stdClass();
 
             // Split lines
-            $lines    = explode("\r\n", $parts[$i]);
-
+            $lines    = preg_split("/\\r\\n|\\r|\\n/", $parts[$i]);
             // Version Status Reason
             $statusTokens = explode(' ', $lines[0], 3);
             $response->version = $statusTokens[0];
@@ -77,14 +76,14 @@ class BatchResult
 
             $headers = array();
             $j       = 1;
-            do {
+            while (Resources::EMPTY_STRING != $lines[$j]) {
                 $headerLine = $lines[$j++];
                 $headerTokens = explode(':', $headerLine);
                 $headers[trim($headerTokens[0])] =
                     isset($headerTokens[1]) ? trim($headerTokens[1]) : null;
-            } while (Resources::EMPTY_STRING != $headerLine);
+            }
             $response->headers = $headers;
-            $response->body = implode("\r\n", array_slice($lines, $j));
+            $response->body = implode(PHP_EOL, array_slice($lines, $j));
             $responses[] = $response;
         }
 
@@ -97,16 +96,16 @@ class BatchResult
      * @param mixed $r1 The first response object.
      * @param mixed $r2 The second response object.
      *
-     * @return boolean
+     * @return integer
      */
     private static function _compareUsingContentId($r1, $r2)
     {
         $h1 = array_change_key_case($r1->headers);
         $h2 = array_change_key_case($r2->headers);
-        $c1 = Utilities::tryGetValue($h1, Resources::CONTENT_ID, 0);
-        $c2 = Utilities::tryGetValue($h2, Resources::CONTENT_ID, 0);
+        $c1 = intval(Utilities::tryGetValue($h1, Resources::CONTENT_ID, 0));
+        $c2 = intval(Utilities::tryGetValue($h2, Resources::CONTENT_ID, 0));
 
-        return intval($c1) >= intval($c2);
+        return $c1 < $c2 ? -1 : ($c1 === $c2 ? 0 : 1);
     }
 
     /**
@@ -134,7 +133,6 @@ class BatchResult
         $callbackName = __CLASS__ . '::_compareUsingContentId';
         $count        = count($responses);
         $entries      = array();
-
         // Sort $responses based on Content-ID so they match order of $operations.
         uasort($responses, $callbackName);
 
